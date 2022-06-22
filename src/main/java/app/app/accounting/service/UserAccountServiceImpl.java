@@ -1,8 +1,8 @@
 package app.app.accounting.service;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import app.app.accounting.dto.UserAccountResponseDto;
@@ -16,11 +16,15 @@ public class UserAccountServiceImpl implements UserAccountService {
 	
 	UserAccountRepository repository;
 	ModelMapper modelMapper;
+	PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserAccountServiceImpl(UserAccountRepository repository, ModelMapper modelMapper) {
+	public UserAccountServiceImpl(UserAccountRepository repository, ModelMapper modelMapper, 
+			PasswordEncoder passwordEncoder
+			) {
 		this.repository = repository;
 		this.modelMapper = modelMapper;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -29,7 +33,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 			throw new UserExistsException(userRegisterDto.getLogin());
 		}
 		UserAccount userAccount = modelMapper.map(userRegisterDto, UserAccount.class);
-		String password = BCrypt.hashpw(userRegisterDto.getPassword(), BCrypt.gensalt());
+		String password = passwordEncoder.encode(userRegisterDto.getPassword());
 		userAccount.setPassword(password);
 		repository.save(userAccount);
 		return modelMapper.map(userAccount, UserAccountResponseDto.class);

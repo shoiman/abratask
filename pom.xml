@@ -7,11 +7,11 @@
 		<version>2.6.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>telran.java40</groupId>
-	<artifactId>forum-service</artifactId>
+	<groupId>app.app</groupId>
+	<artifactId>message-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>forum-service</name>
-	<description>Forum web service</description>
+	<name>message-service</name>
+	<description>message web service</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -22,15 +22,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.mindrot</groupId>
-			<artifactId>jbcrypt</artifactId>
-			<version>0.4</version>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -44,6 +42,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

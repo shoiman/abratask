@@ -15,7 +15,7 @@ public class MessageNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 6952550028444204207L;
 
 	public MessageNotFoundException(String id) {
-		super("Post with id = " + id + " not found");
+		super("Message with id = " + id + " not found");
 
 	}
 

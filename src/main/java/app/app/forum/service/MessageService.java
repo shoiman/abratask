@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import app.app.forum.dto.MessageDto;
+import app.app.forum.dto.MessageRequestDto;
 import app.app.forum.dto.exceptions.MessageNotFoundException;
 import app.app.forum.model.Message;
 import app.app.forum.repository.MessageRepository;
@@ -30,42 +31,44 @@ public class MessageService implements MService {
 
 	@Transactional
 	@Override
-	public Message writeMessage(MessageDto messageDto, String sender, String receiver) {
+	public MessageRequestDto writeMessage(MessageDto messageDto, String sender, String receiver) {
 		Message message = new Message(sender, receiver, messageDto.getMessage(), messageDto.getSubject());
 		messageRepository.save(message);
-		return message;
+		return modelMapper.map(message, MessageRequestDto.class);
 	}
 
 	@Override
-	public List<Message> getAllMessagesforUser(String user) {		
-		return messageRepository.findAllBySenderOrReseiver(user, user);
+	public List<MessageRequestDto> getAllMessagesforUser(String user) {		
+		return messageRepository.findAllBySenderIgnoreCaseOrReseiverIgnoreCase(user, user)
+				.stream()
+				.map(m -> modelMapper.map(m, MessageRequestDto.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override
-	public List<Message> getAllUnreadMessagesforUser(String user) {
-		return messageRepository.findAllBySenderOrReseiver(user,user)
+	public List<MessageRequestDto> getAllUnreadMessagesforUser(String user) {
+		return messageRepository.findAllBySenderIgnoreCaseOrReseiverIgnoreCase(user,user)
 				.stream()
 				.filter(m -> m.getRead() == false)
+				.map(m -> modelMapper.map(m, MessageRequestDto.class))
 				.collect(Collectors.toList());
 
 	}
 
 	@Override
 	public Message readMessage(String user) {
-		//Message message = messageRepository.findById(id).orElseThrow(() -> new MessageNotFoundExcieption());
-		Message message = messageRepository.findFirstByReseiverOrderByDateDesc(user).orElseThrow(() -> new MessageNotFoundException()); 
+		Message message = messageRepository.findFirstByReseiverIgnoreCaseOrderByDateDesc(user).orElseThrow(() -> new MessageNotFoundException()); 
 		message.setRead(true);
 		messageRepository.save(message);
-		//return modelMapper.map(message, ShowMessageDto.class);
 		return message;
 	}
 
 	@Transactional
 	@Override
-	public Message deleteMessage(String id) {
+	public MessageRequestDto deleteMessage(String id) {
 		Message message = messageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException());
 		messageRepository.delete(message);
-		return message;
+		return modelMapper.map(message, MessageRequestDto.class);
 	}
 
 }

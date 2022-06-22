@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.app.forum.dto.MessageDto;
+import app.app.forum.dto.MessageRequestDto;
 import app.app.forum.model.Message;
 import app.app.forum.service.MessageService;
 
@@ -29,28 +30,28 @@ public class MessageController {
 	}
 	
 		
-	@PostMapping("/add/{sender}/{receiver}")
-	public Message addMessage(@RequestBody MessageDto messageDto,@PathVariable String sender,@PathVariable String receiver) {
-		return messageService.writeMessage(messageDto, sender, receiver);
+	@PostMapping("/add/{sender}/{reseiver}")
+	public MessageRequestDto addMessage(@RequestBody MessageDto messageDto,@PathVariable String sender,@PathVariable String reseiver) {
+		return messageService.writeMessage(messageDto, sender, reseiver);
 	}
 	
-	@GetMapping("/get/{user}")
-	public Message getMessage(@PathVariable String user) {
-		return messageService.readMessage(user);
+	@GetMapping("/get/{reseiver}")
+	public Message getMessage(@PathVariable String reseiver) {
+		return messageService.readMessage(reseiver);
 	}
 	
 	@GetMapping("/getAllForUser/{user}")
-	public List<Message> getAllMessagesByUser(@PathVariable String user){
+	public List<MessageRequestDto> getAllMessagesByUser(@PathVariable String user){
 		return messageService.getAllMessagesforUser(user);
 	}
 	
 	@GetMapping("/getAllUnreadMessageForUser/{user}")
-	public List<Message> getAllUnreadMessagesByUser(@PathVariable String user){
+	public List<MessageRequestDto> getAllUnreadMessagesByUser(@PathVariable String user){
 		return messageService.getAllUnreadMessagesforUser(user);
 	}
 
 	@DeleteMapping("delete/{id}")
-	public Message deleteMessage(@PathVariable String id) {
+	public MessageRequestDto deleteMessage(@PathVariable String id) {
 		return messageService.deleteMessage(id);
 	}
 }

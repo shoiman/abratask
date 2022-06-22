@@ -1,18 +1,20 @@
 package app.app;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import app.app.accounting.repository.UserAccountRepository;
+
 
 @SpringBootApplication
-public class ForumServiceApplication {
-
+public class ForumServiceApplication{
+	
 	@Autowired
-	UserAccountRepository repository;
+	PasswordEncoder passwordEncoder;
+	
+
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ForumServiceApplication.class, args);
