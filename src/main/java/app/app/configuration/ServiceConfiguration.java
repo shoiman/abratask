@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 @Configuration
 public class ServiceConfiguration {
+	
 	@Bean
 	public ModelMapper getModelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
@@ -24,4 +26,8 @@ public class ServiceConfiguration {
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	
+
+	
 }

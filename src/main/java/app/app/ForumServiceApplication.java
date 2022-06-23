@@ -19,6 +19,8 @@ public class ForumServiceApplication{
 	public static void main(String[] args) {
 		SpringApplication.run(ForumServiceApplication.class, args);
 	}
+	
+	
 
 
 
